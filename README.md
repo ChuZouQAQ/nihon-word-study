@@ -1,6 +1,6 @@
 # jp_word_full
 
-A new Flutter project.
+A new Flutter project to study japanese.
 
 ## Getting Started
 
