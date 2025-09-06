@@ -1,7 +1,7 @@
 name: nihon_word_study
 description: A new Flutter project for studying Japanese words.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -12,17 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # iOS style icons.
   cupertino_icons: ^1.0.2
-  
-  # 数据库依赖
   sqflite: ^2.3.3
   path: ^1.9.0
-
-  # 词库导入功能所需的依赖
-  file_picker: ^8.0.5      # 用于文件选择
-  csv: ^6.0.0              # 用于解析CSV文件
-  path_provider: ^2.1.3    # 用于访问文件系统路径
+  file_picker: ^8.0.5
+  csv: ^6.0.0
+  path_provider: ^2.1.3
 
 dev_dependencies:
   flutter_test:
@@ -33,15 +28,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
+  # 声明资源目录，这样 Flutter 就会包含该目录下的所有文件
   assets:
     - assets/fonts/
 
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
+  # 声明字体
   fonts:
     - family: NotoSansSC
       fonts:
