@@ -59,7 +59,7 @@ CREATE TABLE word_table (
     await db.transaction((txn) async {
       final batch = txn.batch();
       for (final word in words) {
-        // 使用 replace 策略，如果单词已存在（基于主键），则会替换它。
+        // 使用 ignore 策略，如果单词已存在（基于主键），则会忽略它。
         // 如果要防止重复（基于单词本身），则需要先查询。
         // 为简化，这里直接插入。
         batch.insert('word_table', word, conflictAlgorithm: ConflictAlgorithm.ignore);
@@ -78,3 +78,4 @@ CREATE TABLE word_table (
     db.close();
   }
 }
+
