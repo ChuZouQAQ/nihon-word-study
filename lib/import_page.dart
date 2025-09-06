@@ -28,9 +28,9 @@ class _ImportPageState extends State<ImportPage> {
         allowedExtensions: ['csv'],
       );
 
-      // +++ 安全检查 +++
-      // 检查 Widget 是否还存在
-      if (!context.mounted) return;
+      // +++ 安全检查 (修正) +++
+      // 检查 Widget 是否还存在于 Widget 树中
+      if (!mounted) return;
 
       if (result == null || result.files.single.path == null) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -48,8 +48,8 @@ class _ImportPageState extends State<ImportPage> {
           .transform(const CsvToListConverter(shouldParseNumbers: false))
           .toList();
 
-      // +++ 安全检查 +++
-      if (!context.mounted) return;
+      // +++ 安全检查 (修正) +++
+      if (!mounted) return;
 
       if (fields.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -100,8 +100,8 @@ class _ImportPageState extends State<ImportPage> {
         final dbHelper = WordDatabase.instance;
         int count = await dbHelper.batchInsertWords(wordsToInsert);
 
-        // +++ 安全检查 +++
-        if (!context.mounted) return;
+        // +++ 安全检查 (修正) +++
+        if (!mounted) return;
 
         // 6. 给用户反馈
         showDialog(
@@ -123,8 +123,8 @@ class _ImportPageState extends State<ImportPage> {
         );
       }
     } catch (e) {
-      // +++ 安全检查 +++
-      if (!context.mounted) return;
+      // +++ 安全检查 (修正) +++
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('导入失败: $e')),
       );
