@@ -1,0 +1,6 @@
+# analysis_options.yaml
+
+analyzer:
+  errors:
+    # 告诉分析器将这条规则的严重性降为 "忽略"
+    library_private_types_in_public_api: ignore
