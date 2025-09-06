@@ -372,3 +372,43 @@ class _WordTrainerScreenState extends State<WordTrainerScreen> {
     );
   }
 }
+import 'package:flutter/material.dart';
+import 'input_screen.dart'; // 导入我们的输入页面
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: '日语单词抽认卡',
+      // 设置应用的主题
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: 'NotoSansSC', // 使用一个更适合中文和日文的字体（需在项目中配置）
+        scaffoldBackgroundColor: const Color(0xFFF0F2F5), // 设置一个柔和的背景色
+        cardTheme: CardTheme(
+          elevation: 4.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      // 将 InputScreen 设置为应用的首页
+      home: const InputScreen(),
+    );
+  }
+}
