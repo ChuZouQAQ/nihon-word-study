@@ -44,33 +44,36 @@ CREATE TABLE word_table (
 ''');
   }
 
-  // --- 您项目中已有的其他数据库方法 ---
-  // 例如：
-  // Future<Word> create(Word word) async { ... }
-  // Future<Word> readWord(int id) async { ... }
-  // ...
-
   /// [新增] 批量插入单词的方法
-  /// 使用事务来保证数据一致性并提高性能
+  /// 使用事务（transaction）来保证数据一致性并大幅提高插入性能。
+  /// @param words: 一个 Map 列表，每个 Map 代表一个单词对象。
+  /// @return: 返回成功插入的单词数量。
   Future<int> batchInsertWords(List<Map<String, dynamic>> words) async {
     final db = await instance.database;
     int count = 0;
 
+    // 使用事务可以确保所有操作要么全部成功，要么全部失败，
+    // 防止数据只插入一半。同时，它比逐条插入快得多。
     await db.transaction((txn) async {
+      // 创建一个批处理对象
       final batch = txn.batch();
+
       for (final word in words) {
-        // 使用 ignore 策略，如果单词已存在（基于主键），则会忽略它。
-        // 如果要防止重复（基于单词本身），则需要先查询。
-        // 为简化，这里直接插入。
+        // 将插入操作添加到批处理中
+        // conflictAlgorithm.ignore 表示如果单词已存在，则忽略此次插入
         batch.insert('word_table', word, conflictAlgorithm: ConflictAlgorithm.ignore);
         count++;
       }
+      
+      // 提交批处理，一次性执行所有插入操作
       await batch.commit(noResult: true);
     });
     
     return count;
   }
 
+  // 您已有的其他数据库方法可以保留在这里
+  // ...
 
   // 关闭数据库连接
   Future close() async {
