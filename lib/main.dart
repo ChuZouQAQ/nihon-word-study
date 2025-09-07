@@ -1,7 +1,9 @@
 // 所有的 import 语句都必须放在文件的最顶端
 import 'package:flutter/material.dart';
 import 'input_screen.dart'; // 导入单词输入页面
-import 'import_page.dart'; // <--- 新增：导入“词库导入”页面
+import 'import_page.dart'; // 导入“词库导入”页面
+import 'import_hive_page.dart'; // 导入单词页面
+import 'prompt_hive_page.dart'; // 背单词页面
 
 // 整个文件只有一个 main 函数
 void main() {
@@ -16,13 +18,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '日単勉強',
-      // 【已修复】这里修复了 CardTheme 的类型错误
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         fontFamily: 'NotoSansSC',
         scaffoldBackgroundColor: const Color(0xFFF0F2F5),
-        // 错误修正：应该是 CardThemeData 而不是 CardTheme
-        cardTheme: CardThemeData( 
+        cardTheme: CardThemeData(
           elevation: 4.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),
@@ -33,18 +33,24 @@ class MyApp extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+            textStyle:
+                const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
       ),
-      // 将 MyHomePage 设置为应用主页
-      home: const MyHomePage(title: '日単勉強'),
+      // 使用命名路由
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MyHomePage(title: '日単勉強'),
+        '/import_hive': (context) => const ImportHivePage(),
+        '/prompt_hive': (context) => const PromptHivePage(),
+      },
     );
   }
 }
 
-// 这是您应用原来的主页 Widget
+// 这是您应用的主页 Widget
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
@@ -64,7 +70,6 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
         actions: [
-          // --- 这里是方案一的代码集成 ---
           // 在顶部的 AppBar 添加一个菜单
           PopupMenuButton<String>(
             onSelected: (value) {
@@ -104,9 +109,22 @@ class MyHomePage extends StatelessWidget {
               onPressed: () => _navigateToWordStudy(context),
               child: const Text('开始单词学习'),
             ),
+            const SizedBox(height: 20),
+
+            // 两个带路由的按钮
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/import_hive'),
+              child: const Text('导入单词'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/prompt_hive'),
+              child: const Text('开始背单词'),
+            ),
           ],
         ),
       ),
     );
   }
 }
+
